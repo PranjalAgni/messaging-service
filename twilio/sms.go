@@ -20,7 +20,7 @@ func SendSMS(toNumber string, message string) string {
 
 	v.Set("To", toNumber)
 	v.Set("From", fromNumber)
-	v.Set("Body", "Brooklyn's in the house!")
+	v.Set("Body", message)
 
 	rb := *strings.NewReader(v.Encode())
 
