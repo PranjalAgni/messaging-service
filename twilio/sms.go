@@ -1,21 +1,20 @@
 package twilio
 
 import (
-	"fmt"
 	"net/http"
 	"net/url"
 	"os"
 	"strings"
 )
 
-var accountSID = os.Getenv("TWILIO_SID")
-var authToken = os.Getenv("TWILIO_AUTH_TOKEN")
-var fromNumber = os.Getenv("FROM_TWILIO_NUMBER")
-
-var urlStr = "https://api.twilio.com/2010-04-01/Accounts/" + accountSID + "/Messages.json"
-
 // SendSMS - sends sms using twilio
 func SendSMS(toNumber string, message string) string {
+
+	var accountSID = os.Getenv("TWILIO_SID")
+	var authToken = os.Getenv("TWILIO_AUTH_TOKEN")
+	var fromNumber = os.Getenv("FROM_TWILIO_NUMBER")
+
+	var urlStr = "https://api.twilio.com/2010-04-01/Accounts/" + accountSID + "/Messages.json"
 
 	v := url.Values{}
 
@@ -34,7 +33,7 @@ func SendSMS(toNumber string, message string) string {
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, _ := client.Do(req)
-	fmt.Println(resp.Status)
 
-	return ""
+	return string(resp.Status)
+
 }

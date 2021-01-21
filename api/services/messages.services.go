@@ -1,7 +1,6 @@
 package services
 
 import (
-	"log"
 	"main/api/types"
 	"main/twilio"
 	"main/utils"
@@ -24,11 +23,9 @@ func SendMessage(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	sid := twilio.SendSMS(body.ToNumber, body.Message)
-
-	log.Println("Message sid = ", sid)
+	smsStatus := twilio.SendSMS(body.ToNumber, body.Message)
 
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"done": "true",
+		"status": smsStatus,
 	})
 }
