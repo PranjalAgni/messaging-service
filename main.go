@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"main/api/routes"
+	"main/utils"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -20,6 +20,7 @@ func main() {
 
 	app := fiber.New(fiber.Config{
 		ServerHeader: "martini",
+		ErrorHandler: utils.ErrorHandler,
 	})
 
 	app.Use(logger.New())
@@ -27,5 +28,5 @@ func main() {
 	// initalize all routes
 	routes.MessagesRoutes(app)
 
-	log.Fatal(app.Listen(":" + os.Getenv("APP_PORT")))
+	app.Listen(fmt.Sprintf(":%v", os.Getenv("APP_PORT")))
 }

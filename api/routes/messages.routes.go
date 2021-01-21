@@ -11,4 +11,5 @@ func MessagesRoutes(app fiber.Router) {
 
 	messageRouter := app.Group("/messages")
 	messageRouter.Get("/print", services.PrintMessage)
+	messageRouter.Post("/send", services.SendMessage)
 }
