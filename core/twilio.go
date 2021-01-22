@@ -1,4 +1,4 @@
-package twilio
+package core
 
 import (
 	"net/http"
@@ -8,7 +8,7 @@ import (
 )
 
 // SendSMS - sends sms using twilio
-func SendSMS(toNumber string, message string) string {
+func SendSMS(done chan bool, toNumber string, message string) (string, error) {
 
 	var accountSID = os.Getenv("TWILIO_SID")
 	var authToken = os.Getenv("TWILIO_AUTH_TOKEN")
@@ -32,8 +32,13 @@ func SendSMS(toNumber string, message string) string {
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	resp, _ := client.Do(req)
+	resp, err := client.Do(req)
 
-	return string(resp.Status)
+	if err != nil {
+		return "", err
+	}
+
+	done <- true
+	return string(resp.Status), nil
 
 }

@@ -2,7 +2,7 @@ package services
 
 import (
 	"main/api/types"
-	"main/twilio"
+	"main/core"
 	"main/utils"
 
 	"github.com/gofiber/fiber/v2"
@@ -23,9 +23,16 @@ func SendMessage(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	smsStatus := twilio.SendSMS(body.ToNumber, body.Message)
+	done := make(chan bool, 1)
+
+	go core.SendSMS(done, body.ToNumber, body.Message)
+
+	<-done
+	// if err != nil {
+	// 	return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	// }
 
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"status": smsStatus,
+		"status": "done",
 	})
 }
