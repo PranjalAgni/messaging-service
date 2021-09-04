@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"main/api/types"
 	"main/core"
 	"main/utils"
@@ -26,6 +27,8 @@ func SendMessage(ctx *fiber.Ctx) error {
 	done := make(chan bool, 1)
 
 	go core.SendSMS(done, body.ToNumber, body.Message)
+
+	fmt.Println("Okay fine")
 
 	<-done
 	// if err != nil {

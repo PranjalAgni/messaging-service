@@ -27,6 +27,7 @@ func main() {
 	app.Use(logger.New())
 
 	// initalize all routes
+	routes.HealthRoutes(app)
 	routes.MessagesRoutes(app)
 
 	log.Println("Server running on http://localhost:" + fmt.Sprintf("%v", os.Getenv("APP_PORT")))
